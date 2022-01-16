@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "wdwtables.fullname" . }}-messaging
+  labels:
+{{ include "wdwtables.labels" . | indent 4 }}
+{{ include "wdwtables.messaging.labels" . | indent 4}}
+spec:
+  type: {{ .Values.messaging.service.type }}
+  ports:
+    - port: {{ .Values.messaging.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "wdwtables.name" . }}-messaging
+    app.kubernetes.io/instance: {{ .Release.Name }}
+status:
+  loadBalancer: {}

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crawler-server
+  labels:
+{{ include "wdwtables.labels" . | indent 4 }}
+{{ include "wdwtables.crawlerServer.labels" . | indent 4}}
+spec:
+  replicas: {{ .Values.crawlerServer.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "wdwtables.name" . }}-crawler-server
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "wdwtables.name" . }}-crawler-server
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - env:
+            - name: DB_DATABASE
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: DB_PORT_5432_TCP_ADDR
+              value: "{{ .Values.api.dbAddr }}"
+            - name: DB_USERNAME
+              value: {{ .Values.postgresql.postgresqlUsername }}
+            - name: REDIS_DB
+              value: "{{ .Values.api.redisDb }}"
+            - name: REDIS_PORT_6379_TCP_ADDR
+              value: {{ .Values.api.redisAddr }}
+            - name: REDIS_PORT_6379_TCP_PORT
+              value: "{{ .Values.api.redisPort }}"
+            - name: FREE_LIMIT
+              value: "{{ .Values.crawlerServer.freeLimit }}"
+          image: "{{ .Values.crawlerServer.image.registry }}/{{ .Values.crawlerServer.image.repository }}:{{ .Values.crawlerServer.image.tag }}"
+          name: crawler-server
+          resources: {}
+      restartPolicy: Always
+status: {}

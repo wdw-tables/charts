@@ -1,0 +1,21 @@
+name: wdwtables
+description: A generated Helm Chart for wdwtables from Skippbox Kompose
+version: 0.0.1
+apiVersion: v2
+appVersion: 2.0.0
+keywords:
+  - wdwtables
+sources:
+  - "https://github.com/wdwtables/helm-chart"
+type: application
+home:
+
+dependencies:
+  - name: postgresql
+    version: 10.16.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 15.7.5
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled

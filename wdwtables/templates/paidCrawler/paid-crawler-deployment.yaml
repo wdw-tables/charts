@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paid-crawler
+  labels:
+{{ include "wdwtables.labels" . | indent 4 }}
+{{ include "wdwtables.paidCrawler.labels" . | indent 4}}
+spec:
+  replicas: {{ .Values.paidCrawler.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "wdwtables.name" . }}-paid-crawler
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "wdwtables.name" . }}-paid-crawler
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - env:
+            - name: BEGIN_TIME
+              value: "{{ .Values.freeCrawler.beginTime }}"
+            - name: DEBUG
+              value: "{{ .Values.freeCrawler.debug }}"
+            - name: END_TIME
+              value: "{{ .Values.freeCrawler.endTime }}"
+            - name: NUMBER_TO_REQUEST
+              value: "{{ .Values.freeCrawler.numberToRequest }}"
+            - name: NUM_CLIENTS
+              value: "{{ .Values.freeCrawler.numClients }}"
+            - name: PROXY_ENABLED
+              value: "{{ .Values.freeCrawler.proxyEnabled }}"
+            - name: RATE_LIMIT
+              value: "{{ .Values.freeCrawler.rateLimit }}"
+            - name: REQUEST_TIMEOUT
+              value: "{{ .Values.freeCrawler.requestTimeout }}"
+            - name: RETRIES
+              value: "{{ .Values.freeCrawler.retries }}"
+            - name: SEARCH_TYPE
+              value: {{ .Values.freeCrawler.searchType }}
+            - name: REDIS_DB
+              value: "{{ .Values.api.redisDb }}"
+            - name: REDIS_PORT_6379_TCP_ADDR
+              value: {{ .Values.api.redisAddr }}
+            - name: REDIS_PORT_6379_TCP_PORT
+              value: "{{ .Values.api.redisPort }}"
+          image: "{{ .Values.paidCrawler.image.registry }}/{{ .Values.paidCrawler.image.repository }}:{{ .Values.paidCrawler.image.tag }}"
+          name: paid-crawler
+          resources: {}
+      restartPolicy: Always
+status: {}

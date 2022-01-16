@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging
+  labels:
+{{ include "wdwtables.labels" . | indent 4 }}
+{{ include "wdwtables.messaging.labels" . | indent 4}}
+spec:
+  replicas: {{ .Values.messaging.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "wdwtables.name" . }}-messaging
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "wdwtables.name" . }}-messaging
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - env:
+            - name: ASSETS_URL
+              value: {{ .Values.messaging.assetsUrl }}
+            - name: BASE_URI
+              value: {{ .Values.messaging.baseUri }}
+            - name: DB_DATABASE
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: DB_PORT_5432_TCP_ADDR
+              value: {{ .Values.api.dbAddr }}
+            - name: DB_USERNAME
+              value: {{ .Values.postgresql.postgresqlUsername }}
+            - name: EMAIL_FROM
+              value: {{ .Values.messaging.emailFrom }}
+            - name: EMAIL_FROM_ADDRESS
+              value: {{ .Values.messaging.emailFromAddress }}
+            - name: FIREBASE_DATABASE_URL
+              value: {{ .Values.api.firebaseDatabaseUrl }}
+            - name: FIREBASE_SERVICE_ACCOUNT_JSON
+              value: {{ .Values.api.firebaseServiceAccountJson }}
+            - name: HTTP_PORT
+              value: "{{ .Values.messaging.service.port }}"
+            - name: MAIL_KEY
+              value: {{ .Values.messaging.mailKey }}
+            - name: MAIL_DOMAIN
+              value: {{ .Values.messaging.mailDomain }}
+            - name: PLIVO_AUTHID
+              value: {{ .Values.messaging.plivoAuthid }}
+            - name: PLIVO_AUTHTOKEN
+              value: {{ .Values.messaging.plivoAuthtoken }}
+            - name: PLIVO_SRC
+              value: "{{ .Values.messaging.plivoSrc }}"
+            - name: REDIS_DB
+              value: "{{ .Values.api.redisDb }}"
+            - name: REDIS_PORT_6379_TCP_ADDR
+              value: {{ .Values.api.redisAddr }}
+            - name: REDIS_PORT_6379_TCP_PORT
+              value: "{{ .Values.api.redisPort }}"
+          image: "{{ .Values.messaging.image.registry }}/{{ .Values.messaging.image.repository }}:{{ .Values.messaging.image.tag }}"
+          name: messaging
+          ports:
+            - containerPort: {{ .Values.api.service.port }}
+          resources: {}
+      restartPolicy: Always
+status: {}

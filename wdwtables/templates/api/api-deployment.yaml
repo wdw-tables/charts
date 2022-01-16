@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+{{ include "wdwtables.labels" . | indent 4 }}
+{{ include "wdwtables.api.labels" . | indent 4}}
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "wdwtables.name" . }}-api
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "wdwtables.name" . }}-api
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - env:
+            - name: DB_DATABASE
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: DB_PORT_5432_TCP_ADDR
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: DB_USERNAME
+              value: {{ .Values.postgresql.postgresqlUsername}}
+            - name: FIREBASE_DATABASE_URL
+              value: {{ .Values.api.firebaseDatabaseUrl }}
+            - name: FIREBASE_SERVICE_ACCOUNT_JSON
+              value: {{ .Values.api.firebaseServiceAccountJson }}
+            - name: REDIS_DB
+              value: "{{ .Values.api.redisDb }}"
+            - name: REDIS_PORT_6379_TCP_ADDR
+              value: {{ .Values.api.redisAddr }}
+            - name: REDIS_PORT_6379_TCP_PORT
+              value: "{{ .Values.api.redisPort }}"
+            - name: SALT_KEY
+              value: {{ .Values.api.saltKey }}
+            - name: SERVICE_URL
+              value: {{ .Values.api.serviceUrl }}
+            - name: STRIPE_KEY
+              value: {{ .Values.api.stripeKey }}
+            - name: TOKEN_KEY_PRIVATE
+              value: {{ .Values.api.tokenKeyPrivate }}
+            - name: TOKEN_KEY_PUBLIC
+              value: {{ .Values.api.tokenKeyPublic }}
+            - name: WEB_PORT
+              value: "{{ .Values.api.service.port }}"
+          image: "{{ .Values.api.image.registry }}/{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          name: api
+          ports:
+            - containerPort: {{ .Values.api.service.port }}
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      restartPolicy: Always
+      volumes:
+        - name: data
+{{- if .Values.api.persistence.data.volumeSpec }}
+{{ toYaml .Values.api.persistence.data.volumeSpec | indent 10 }}
+{{- else }}
+          persistentVolumeClaim:
+            claimName: {{ include "wdwtables.fullname" . }}-data-store
+{{- end }}
+status: {}
