@@ -51,9 +51,9 @@ spec:
               value: {{ .Values.freeCrawler.searchType }}
             - name: REDIS_DB
               value: "{{ .Values.api.redisDb }}"
-            - name: REDIS_PORT_6379_TCP_ADDR
+            - name: REDIS_HOST
               value: {{ .Values.api.redisAddr }}
-            - name: REDIS_PORT_6379_TCP_PORT
+            - name: REDIS_PORT
               value: "{{ .Values.api.redisPort }}"
           image: "{{ .Values.freeCrawler.image.registry }}/{{ .Values.freeCrawler.image.repository }}:{{ .Values.freeCrawler.image.tag }}"
           name: free-crawler

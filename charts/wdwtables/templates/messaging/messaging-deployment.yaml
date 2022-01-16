@@ -63,9 +63,9 @@ spec:
               value: "{{ .Values.messaging.plivoSrc }}"
             - name: REDIS_DB
               value: "{{ .Values.api.redisDb }}"
-            - name: REDIS_PORT_6379_TCP_ADDR
+            - name: REDIS_HOST
               value: {{ .Values.api.redisAddr }}
-            - name: REDIS_PORT_6379_TCP_PORT
+            - name: REDIS_PORT
               value: "{{ .Values.api.redisPort }}"
           image: "{{ .Values.messaging.image.registry }}/{{ .Values.messaging.image.repository }}:{{ .Values.messaging.image.tag }}"
           name: messaging

@@ -33,15 +33,15 @@ spec:
               value: {{ .Values.postgresql.postgresqlDatabase }}
             - name: DB_PASSWORD
               value: {{ .Values.postgresql.postgresqlPassword }}
-            - name: DB_PORT_5432_TCP_ADDR
+            - name: DB_HOST
               value: "{{ .Values.api.dbAddr }}"
             - name: DB_USERNAME
               value: {{ .Values.postgresql.postgresqlUsername }}
             - name: REDIS_DB
               value: "{{ .Values.api.redisDb }}"
-            - name: REDIS_PORT_6379_TCP_ADDR
+            - name: REDIS_HOST
               value: {{ .Values.api.redisAddr }}
-            - name: REDIS_PORT_6379_TCP_PORT
+            - name: REDIS_PORT
               value: "{{ .Values.api.redisPort }}"
             - name: FREE_LIMIT
               value: "{{ .Values.crawlerServer.freeLimit }}"

@@ -58,6 +58,16 @@ messaging:
   #baseUri: https://messaging.domain.com
   #assetsUrl: https://assets.domain.com
 
+  persistence:
+  data:
+    enabled: false
+    size: 8Gi
+    #type: custom
+    #volumeSpec:
+    #  nfs:
+    #    server: 10.100.0.1
+    #    path: /srv/nfsv4/wdwtables/data
+
 uids:
   image:
     registry: docker.vosswerks.xyz
@@ -197,7 +207,7 @@ redis:
     enabled: false
     ## @param auth.sentinel Enable password authentication on sentinels too
     ##
-    sentinel: true
+    sentinel: false
     ## @param auth.password Redis&trade; password
     ## Defaults to a random 10-character alphanumeric string if not set
     ##
@@ -213,6 +223,11 @@ redis:
     ## @param auth.usePasswordFiles Mount credentials as files instead of using an environment variable
     ##
     usePasswordFiles: false
+
+  replica:
+    ## @param replica.replicaCount Number of Redis&trade; replicas to deploy
+    ##
+    replicaCount: 0
 
   persistence:
     ## @param master.persistence.enabled Enable persistence on Redis&trade; master nodes using Persistent Volume Claims
