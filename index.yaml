@@ -3,6 +3,29 @@ entries:
   wdwtables:
   - apiVersion: v2
     appVersion: 2.0.0
+    created: "2022-01-16T21:36:03.443238274Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.16.1
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.7.5
+    description: A generated Helm Chart for wdwtables from Skippbox Kompose
+    digest: fcbf383a67780aeb8c00097d80ffb4da7e3db1e28272066f81b76fec1df7597a
+    keywords:
+    - wdwtables
+    name: wdwtables
+    sources:
+    - https://github.com/wdwtables/helm-chart
+    type: application
+    urls:
+    - https://github.com/wdw-tables/charts/releases/download/wdwtables-0.0.3/wdwtables-0.0.3.tgz
+    version: 0.0.3
+  - apiVersion: v2
+    appVersion: 2.0.0
     created: "2022-01-16T13:58:26.82875296Z"
     dependencies:
     - condition: postgresql.enabled
@@ -47,4 +70,4 @@ entries:
     urls:
     - https://github.com/wdw-tables/charts/releases/download/wdwtables-0.0.1/wdwtables-0.0.1.tgz
     version: 0.0.1
-generated: "2022-01-16T13:58:26.82876436Z"
+generated: "2022-01-16T21:36:03.443256074Z"
