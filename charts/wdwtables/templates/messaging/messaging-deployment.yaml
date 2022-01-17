@@ -72,5 +72,17 @@ spec:
           ports:
             - containerPort: {{ .Values.api.service.port }}
           resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: data
       restartPolicy: Always
+      volumes:
+        - name: data
+          size: {{ .Values.api.persistence.data.size }}
+{{- if .Values.api.persistence.data.volumeSpec }}
+{{ toYaml .Values.api.persistence.data.volumeSpec | indent 10 }}
+{{- else }}
+          persistentVolumeClaim:
+            claimName: {{ include "wdwtables.fullname" . }}-data-store
+{{- end }}
 status: {}
