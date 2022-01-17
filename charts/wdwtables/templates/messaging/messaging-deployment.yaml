@@ -78,9 +78,8 @@ spec:
       restartPolicy: Always
       volumes:
         - name: data
-          size: {{ .Values.api.persistence.data.size }}
-{{- if .Values.api.persistence.data.volumeSpec }}
-{{ toYaml .Values.api.persistence.data.volumeSpec | indent 10 }}
+{{- if .Values.messaging.persistence.data.volumeSpec }}
+{{ toYaml .Values.messaging.persistence.data.volumeSpec | indent 10 }}
 {{- else }}
           persistentVolumeClaim:
             claimName: {{ include "wdwtables.fullname" . }}-data-store

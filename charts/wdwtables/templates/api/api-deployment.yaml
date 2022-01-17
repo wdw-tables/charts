@@ -70,8 +70,6 @@ spec:
       restartPolicy: Always
       volumes:
         - name: data
-          size: {{ .Values.api.persistence.data.size }}
-          storageClassName: ""
 {{- if .Values.api.persistence.data.volumeSpec }}
 {{ toYaml .Values.api.persistence.data.volumeSpec | indent 10 }}
 {{- else }}

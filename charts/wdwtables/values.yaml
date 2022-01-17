@@ -59,14 +59,14 @@ messaging:
   #assetsUrl: https://assets.domain.com
 
   persistence:
-  data:
-    enabled: false
-    size: 8Gi
-    #type: custom
-    #volumeSpec:
-    #  nfs:
-    #    server: 10.100.0.1
-    #    path: /srv/nfsv4/wdwtables/data
+    data:
+      enabled: false
+      size: 8Gi
+      #type: custom
+      #volumeSpec:
+      #  nfs:
+      #    server: 10.100.0.1
+      #    path: /srv/nfsv4/wdwtables/data
 
 uids:
   image:

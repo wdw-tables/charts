@@ -9,7 +9,7 @@ spec:
   {{- if .Values.api.persistence.data.storageClass }}
   storageClassName: {{ .Values.api.persistence.data.storageClass }}
   {{- else }}
-  storageClassName: default
+  storageClassName: ""
   {{- end }}
   accessModes:
     - ReadWriteOnce
