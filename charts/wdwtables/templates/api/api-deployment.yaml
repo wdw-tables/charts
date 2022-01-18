@@ -31,11 +31,11 @@ spec:
       containers:
         - env:
             - name: DB_DATABASE
-              value: {{ .Values.api.dbAddr }}
+              value: {{ .Values.postgresql.postgresqlDatabase }}
             - name: DB_PASSWORD
               value: {{ .Values.postgresql.postgresqlPassword }}
             - name: DB_HOST
-              value: {{ .Values.postgresql.postgresqlDatabase }}
+              value: {{ .Values.api.dbAddr }}
             - name: DB_USERNAME
               value: {{ .Values.postgresql.postgresqlUsername}}
             - name: FIREBASE_DATABASE_URL
