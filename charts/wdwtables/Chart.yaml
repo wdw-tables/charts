@@ -1,6 +1,6 @@
 name: wdwtables
 description: A generated Helm Chart for wdwtables from Skippbox Kompose
-version: 0.1.3
+version: 0.1.4
 apiVersion: v2
 appVersion: 2.0.1
 keywords:
