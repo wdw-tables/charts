@@ -32,7 +32,7 @@ spec:
             - name: BEGIN_TIME
               value: "{{ .Values.freeCrawler.beginTime }}"
             - name: DEBUG
-              value: "{{ .Values.freeCrawler.debug }}"
+              value: {{ .Values.freeCrawler.debug }}
             - name: END_TIME
               value: "{{ .Values.freeCrawler.endTime }}"
             - name: NUMBER_TO_REQUEST

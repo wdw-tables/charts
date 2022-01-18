@@ -95,7 +95,7 @@ freeCrawler:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/crawler"
-    tag: 1.1.1
+    tag: 1.1.2
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
@@ -115,7 +115,7 @@ paidCrawler:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/crawler"
-    tag: 1.1.1
+    tag: 1.1.2
     pullPolicy: IfNotPresent
   replicaCount: 2
   resources: {}
