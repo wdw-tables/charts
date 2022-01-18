@@ -3,8 +3,9 @@ kind: Deployment
 metadata:
   name: api
   labels:
-{{ include "wdwtables.labels" . | indent 4 }}
 {{ include "wdwtables.api.labels" . | indent 4}}
+    app.kubernetes.io/name: {{ include "wdwtables.name" . }}-api
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.api.replicaCount }}
   selector:

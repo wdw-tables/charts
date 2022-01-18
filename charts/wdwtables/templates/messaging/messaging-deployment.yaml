@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: messaging
   labels:
-{{ include "wdwtables.labels" . | indent 4 }}
+    app.kubernetes.io/name: {{ include "wdwtables.name" . }}-messaging
+    app.kubernetes.io/instance: {{ .Release.Name }}
 {{ include "wdwtables.messaging.labels" . | indent 4}}
 spec:
   replicas: {{ .Values.messaging.replicaCount }}
