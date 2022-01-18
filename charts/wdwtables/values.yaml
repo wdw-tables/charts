@@ -1,9 +1,9 @@
-# Runtime configuration for Synapse and settings related to the Matrix protocol
+# Runtime configuration for WDW Tables
 api:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/server"
-    tag: 2.0.0
+    tag: 2.0.1
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
