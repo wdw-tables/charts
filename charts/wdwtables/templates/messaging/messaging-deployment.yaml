@@ -71,7 +71,7 @@ spec:
           image: "{{ .Values.messaging.image.registry }}/{{ .Values.messaging.image.repository }}:{{ .Values.messaging.image.tag }}"
           name: messaging
           ports:
-            - containerPort: {{ .Values.api.service.port }}
+            - containerPort: {{ .Values.messaging.service.port }}
               name: http
           resources: {}
           volumeMounts:
