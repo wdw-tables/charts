@@ -31,7 +31,7 @@ spec:
       containers:
         - env:
             - name: DB_DATABASE
-              value: {{ .Values.postgresql.postgresqlDatabase }}
+              value: {{ .Values.api.dbAddr }}
             - name: DB_PASSWORD
               value: {{ .Values.postgresql.postgresqlPassword }}
             - name: DB_HOST
