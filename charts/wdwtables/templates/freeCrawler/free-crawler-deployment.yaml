@@ -58,5 +58,11 @@ spec:
           image: "{{ .Values.freeCrawler.image.registry }}/{{ .Values.freeCrawler.image.repository }}:{{ .Values.freeCrawler.image.tag }}"
           name: free-crawler
           resources: {}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8288
+            initialDelaySeconds: 5
+            periodSeconds: 3
       restartPolicy: Always
 status: {}

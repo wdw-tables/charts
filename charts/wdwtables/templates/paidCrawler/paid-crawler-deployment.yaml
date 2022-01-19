@@ -58,5 +58,11 @@ spec:
           image: "{{ .Values.paidCrawler.image.registry }}/{{ .Values.paidCrawler.image.repository }}:{{ .Values.paidCrawler.image.tag }}"
           name: paid-crawler
           resources: {}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8288
+            initialDelaySeconds: 5
+            periodSeconds: 3
       restartPolicy: Always
 status: {}
