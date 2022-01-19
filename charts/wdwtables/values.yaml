@@ -3,7 +3,7 @@ api:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/server"
-    tag: 2.0.1
+    tag: 2.0.2
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -37,7 +37,7 @@ messaging:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/messaging"
-    tag: 2.0.1
+    tag: 2.0.2
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -72,7 +72,7 @@ uids:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/uids"
-    tag: 2.0.1
+    tag: 2.0.3
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
@@ -84,7 +84,7 @@ crawlerServer:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/crawler-server"
-    tag: 2.0.1
+    tag: 2.0.6
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
@@ -95,7 +95,7 @@ freeCrawler:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/crawler"
-    tag: 1.1.2
+    tag: 1.1.9
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
@@ -115,7 +115,7 @@ paidCrawler:
   image:
     registry: docker.vosswerks.xyz
     repository: "wdw-tables/crawler"
-    tag: 1.1.2
+    tag: 1.1.9
     pullPolicy: IfNotPresent
   replicaCount: 2
   resources: {}

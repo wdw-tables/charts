@@ -30,25 +30,25 @@ spec:
       containers:
         - env:
             - name: BEGIN_TIME
-              value: "{{ .Values.freeCrawler.beginTime }}"
+              value: "{{ .Values.paidCrawler.beginTime }}"
             - name: DEBUG
-              value: "{{ .Values.freeCrawler.debug }}"
+              value: "{{ .Values.paidCrawler.debug }}"
             - name: END_TIME
-              value: "{{ .Values.freeCrawler.endTime }}"
+              value: "{{ .Values.paidCrawler.endTime }}"
             - name: NUMBER_TO_REQUEST
-              value: "{{ .Values.freeCrawler.numberToRequest }}"
+              value: "{{ .Values.paidCrawler.numberToRequest }}"
             - name: NUM_CLIENTS
-              value: "{{ .Values.freeCrawler.numClients }}"
+              value: "{{ .Values.paidCrawler.numClients }}"
             - name: PROXY_ENABLED
-              value: "{{ .Values.freeCrawler.proxyEnabled }}"
+              value: "{{ .Values.paidCrawler.proxyEnabled }}"
             - name: RATE_LIMIT
-              value: "{{ .Values.freeCrawler.rateLimit }}"
+              value: "{{ .Values.paidCrawler.rateLimit }}"
             - name: REQUEST_TIMEOUT
-              value: "{{ .Values.freeCrawler.requestTimeout }}"
+              value: "{{ .Values.paidCrawler.requestTimeout }}"
             - name: RETRIES
-              value: "{{ .Values.freeCrawler.retries }}"
+              value: "{{ .Values.paidCrawler.retries }}"
             - name: SEARCH_TYPE
-              value: {{ .Values.freeCrawler.searchType }}
+              value: {{ .Values.paidCrawler.searchType }}
             - name: REDIS_DB
               value: "{{ .Values.api.redisDb }}"
             - name: REDIS_HOST
