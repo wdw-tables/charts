@@ -45,8 +45,16 @@ spec:
               value: "{{ .Values.api.redisPort }}"
             - name: FREE_LIMIT
               value: "{{ .Values.crawlerServer.freeLimit }}"
+            - name: CRON
+              value: "{{ .Values.crawlerServer.cron }}"
           image: "{{ .Values.crawlerServer.image.registry }}/{{ .Values.crawlerServer.image.repository }}:{{ .Values.crawlerServer.image.tag }}"
           name: crawler-server
           resources: {}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8288
+            initialDelaySeconds: 5
+            periodSeconds: 3
       restartPolicy: Always
 status: {}

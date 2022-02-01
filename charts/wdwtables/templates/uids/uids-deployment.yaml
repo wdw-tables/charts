@@ -50,5 +50,11 @@ spec:
           image: "{{ .Values.uids.image.registry }}/{{ .Values.uids.image.repository }}:{{ .Values.uids.image.tag }}"
           name: uids
           resources: {}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8281
+            initialDelaySeconds: 5
+            periodSeconds: 3
       restartPolicy: Always
 status: {}

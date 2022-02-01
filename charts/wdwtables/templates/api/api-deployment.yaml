@@ -66,6 +66,12 @@ spec:
             - containerPort: {{ .Values.api.service.port }}
               name: http
           resources: {}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.api.service.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 3
           volumeMounts:
             - mountPath: /data
               name: data

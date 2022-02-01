@@ -1,0 +1,67 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  labels:
+{{ include "wdwtables.postgresBackup.labels" . | indent 4}}
+    app.kubernetes.io/name: {{ include "wdwtables.name" . }}-postgres-backup
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  schedule: "30 04 * * *"
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: {{ include "wdwtables.name" . }}-postgres-backup
+            app.kubernetes.io/instance: {{ .Release.Name }}
+        spec:
+          volumes:
+            - name: data
+              emptyDir: {}
+          initContainers:
+            - name: dump
+              image: docker.io/postgres:13.2-alpine
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/postgres/backups
+              command:
+                - "/bin/sh"
+              args:
+                - "-c"
+                - "pg_dump postgresql://$(printenv DB_USERNAME):$(printenv DB_PASSWORD)@$(printenv DB_HOST)/$(printenv DB_DATABASE) > /var/lib/postgres/backups/$(date -Iseconds --utc).sql"
+              env:
+                - name: DB_DATABASE
+                  value: {{ .Values.postgresql.postgresqlDatabase }}
+                - name: DB_PASSWORD
+                  value: {{ .Values.postgresql.postgresqlPassword }}
+                - name: DB_HOST
+                  value: {{ .Values.api.dbAddr }}
+                - name: DB_USERNAME
+                  value: {{ .Values.postgresql.postgresqlUsername}}
+          containers:
+            - name: backup
+              image: restic/restic:0.12.1
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/postgres/backups
+              command:
+                - restic
+              args:
+                - backup
+                - --tag
+                - cronjob
+                - /var/lib/postgres/backups
+              env:
+                - name: B2_ACCOUNT_ID
+                  value: {{ .Values.postgresBackup.b2AccountId }}
+                - name: B2_ACCOUNT_KEY
+                  value: {{ .Values.postgresBackup.b2AccountKey }}
+                - name: RESTIC_REPOSITORY
+                  value: {{ .Values.postgresBackup.resticRepository }}
+                - name: RESTIC_PASSWORD
+                  value: {{ .Values.postgresBackup.resticPassword }}
+          restartPolicy: OnFailure

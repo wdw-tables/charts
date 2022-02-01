@@ -105,3 +105,12 @@ postgres specific labels
 {{ $key }}: {{ $val }}
 {{- end }}
 {{- end -}}
+
+{{/*
+postgresBackup specific labels
+*/}}
+{{- define "wdwtables.postgresBackup.labels" -}}
+{{- range $key, $val := .Values.postgresBackup.labels }}
+{{ $key }}: {{ $val }}
+{{- end }}
+{{- end -}}
