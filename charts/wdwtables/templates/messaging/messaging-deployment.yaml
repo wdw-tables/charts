@@ -77,7 +77,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: "{{ .Values.messaging.service.port }}"
+              port: {{ .Values.messaging.service.port }}
             initialDelaySeconds: 5
             periodSeconds: 3
           volumeMounts:
